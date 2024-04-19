@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Sistema de Estoque</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+
+	<div th:replace="fragments/menu :: menu"></div>
+
+	<div class="container">
+		<div class="bg-light p-5 rounded"></div>
+		<h1>Clientes</h1>
+		<hr>
+		<div>
+			<a class="btn btn-primary" th:href="@{/clients/new}">Novo</a>
+		</div>
+		<hr>
+		<div th:if="${!#strings.isEmpty(feedback)}" class="alert alert-success" role="alert">
+			<span th:text="${feedback}"></span>
+		</div>
+		
+		<table class="table table-hover">
+		    <thead>
+		        <tr>
+		            <td><b>NOME</b></td>
+		            <td><b>DATA NASCIMENTO</b></td>
+		            <td><b>CPF</b></td>
+					<td></td>
+					<td></td>
+		        </tr>
+		    </thead>
+		    <tbody>
+		        <tr th:each="client : ${clients}">
+		            <td th:text="${client.name}"></td>
+		            <td th:text="${#temporals.format(client.birthDate, 'dd/MM/yyyy')}"></td>
+		            <td th:text="${client.cpf}"></td>
+		            <td>
+		            	<a class="btn btn-sm btn-secondary" th:href="@{/clients/edit/{id}(id=${client.id})}">Editar</a>
+		            </td>
+		            <td>
+		            	<a class="btn btn-sm btn-secondary" th:if="${client.enabled == false}" th:href="@{/clients/enabled/{id}(id=${client.id})}">Ativar</a>
+		            	<a class="btn btn-sm btn-secondary" th:unless="${client.enabled == false}" th:href="@{/clients/disabled/{id}(id=${client.id})}">Inativar</a>
+		            </td>
+		       </tr>
+		     </tbody>
+		</table>
+		</div>
+	</div>
+</body>
+</html>
